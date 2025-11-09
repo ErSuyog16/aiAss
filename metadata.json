@@ -1,0 +1,7 @@
+{
+  "name": "AI assistant",
+  "description": "A web-based AI assistant that mimics a desktop search bar experience. It supports text, image, and voice queries, providing formatted responses with code highlighting. Activated with Ctrl+Space.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
