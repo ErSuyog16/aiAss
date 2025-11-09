@@ -1,13 +1,9 @@
-
 import { GoogleGenAI } from "@google/genai";
 
-const API_KEY = process.env.API_KEY;
-
-if (!API_KEY) {
-  console.error("Gemini API key is not set. Please set the API_KEY environment variable.");
-}
-
-const ai = new GoogleGenAI({ apiKey: API_KEY! });
+// Fix: Use process.env.API_KEY as per the guidelines to fix the TypeScript error and adhere to requirements.
+// The API key must be obtained exclusively from the environment variable `process.env.API_KEY`.
+// Assume this variable is pre-configured, valid, and accessible.
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
 
 // Helper to convert data URL to blob
 function dataURLtoFile(dataurl: string, filename: string) {
@@ -41,20 +37,13 @@ const fileToGenerativePart = async (file: File) => {
 };
 
 export const runQuery = async (prompt: string, image?: string): Promise<string> => {
-  if (!API_KEY) {
-    return "Error: Gemini API key is not configured. Please contact the administrator.";
-  }
-  
-  // Fix: The following is a deprecated way of calling the Gemini API.
-  // const model = ai.models['gemini-2.5-flash'];
-  
+  // Fix: Removed API key check as per guidelines.
+  // The guidelines state to assume the API key is pre-configured and valid.
   try {
     if (image) {
       const imageFile = dataURLtoFile(image, 'query-image');
       const imagePart = await fileToGenerativePart(imageFile);
       
-      // Fix: Use ai.models.generateContent and pass the model name directly
-      // as per the latest SDK guidelines.
       const response = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
         contents: { parts: [{ text: prompt }, imagePart] }
@@ -62,8 +51,6 @@ export const runQuery = async (prompt: string, image?: string): Promise<string> 
 
       return response.text;
     } else {
-      // Fix: Use ai.models.generateContent and pass the model name directly
-      // as per the latest SDK guidelines.
       const response = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
         contents: prompt
